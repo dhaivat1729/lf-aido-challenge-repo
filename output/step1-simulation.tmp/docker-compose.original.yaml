@@ -1,0 +1,133 @@
+version: '3'
+services:
+    solution:
+        image: dummy-org/dummy-repo
+        environment:
+            AIDONODE_DATA_IN: /fifos/agent-in
+            AIDONODE_DATA_OUT: fifo:/fifos/agent-out
+            challenge_name: aido3-LF-sim-validation
+            challenge_step_name: step1-simulation
+            submission_id: 0
+            SUBMISSION_CONTAINER: dummy-org/dummy-repo
+            username: dhaivat1729
+            uid: 1000
+            USER: dhaivat1729
+            HOME: /fake-home/dhaivat1729
+        user: '1000:0'
+        volumes:
+        - .:/challenges
+        - ./fifos:/fifos
+        - /tmp/fake-dhaivat1729-home:/fake-home/dhaivat1729
+        networks:
+            evaluation:
+                aliases:
+                - evaluation
+    evaluator:
+        image: docker.io/andreacensi/aido3-lf-sim-validation-step1-simulation-evaluator:2019_12_02_17_28_56
+        environment:
+            experiment_manager_parameters: 'episodes_per_scenario: 1
+
+                episode_length_s: 15.0
+
+                min_episode_length_s: 0.0
+
+                seed: 43
+
+                physics_dt: 0.05
+
+                max_failures: 2
+
+                agent_in: /fifos/agent-in
+
+                agent_out: /fifos/agent-out
+
+                sim_in: /fifos/simulator-in
+
+                sim_out: /fifos/simulator-out
+
+                sm_in: /fifos/scenario_maker-in
+
+                sm_out: /fifos/scenario_maker-out
+
+                timeout_initialization: 120
+
+                timeout_regular: 120
+
+                '
+            challenge_name: aido3-LF-sim-validation
+            challenge_step_name: step1-simulation
+            submission_id: 0
+            SUBMISSION_CONTAINER: dummy-org/dummy-repo
+            username: dhaivat1729
+            uid: 1000
+            USER: dhaivat1729
+            HOME: /fake-home/dhaivat1729
+        user: '1000:0'
+        volumes:
+        - .:/challenges
+        - ./fifos:/fifos
+        - /tmp/fake-dhaivat1729-home:/fake-home/dhaivat1729
+        networks:
+            evaluation:
+                aliases:
+                - evaluation
+    simulator:
+        image: docker.io/andreacensi/aido3-lf-sim-validation-step1-simulation-simulator:2019_12_02_17_29_08
+        environment:
+            AIDONODE_CONFIG: "env_constructor: Simulator\nenv_parameters:\n  max_steps:\
+                \ 500001 # we don't want the gym to reset itself\n  domain_rand: 0\n\
+                \  camera_width: 640\n  camera_height: 480\n  distortion: true\n"
+            AIDONODE_DATA_IN: /fifos/simulator-in
+            AIDONODE_DATA_OUT: fifo:/fifos/simulator-out
+            challenge_name: aido3-LF-sim-validation
+            challenge_step_name: step1-simulation
+            submission_id: 0
+            SUBMISSION_CONTAINER: dummy-org/dummy-repo
+            username: dhaivat1729
+            uid: 1000
+            USER: dhaivat1729
+            HOME: /fake-home/dhaivat1729
+        user: '1000:0'
+        volumes:
+        - .:/challenges
+        - ./fifos:/fifos
+        - /tmp/fake-dhaivat1729-home:/fake-home/dhaivat1729
+        networks:
+            evaluation:
+                aliases:
+                - evaluation
+    scenario_maker:
+        image: docker.io/andreacensi/aido3-lf-sim-validation-step1-simulation-scenario_maker:2019_12_02_17_31_45
+        environment:
+            AIDONODE_CONFIG: 'maps:
+
+                - ETHZ_autolab_technical_track
+
+                scenarios_per_map: 5
+
+                robots_npcs: 0
+
+                '
+            AIDONODE_DATA_IN: /fifos/scenario_maker-in
+            AIDONODE_DATA_OUT: fifo:/fifos/scenario_maker-out
+            challenge_name: aido3-LF-sim-validation
+            challenge_step_name: step1-simulation
+            submission_id: 0
+            SUBMISSION_CONTAINER: dummy-org/dummy-repo
+            username: dhaivat1729
+            uid: 1000
+            USER: dhaivat1729
+            HOME: /fake-home/dhaivat1729
+        user: '1000:0'
+        volumes:
+        - .:/challenges
+        - ./fifos:/fifos
+        - /tmp/fake-dhaivat1729-home:/fake-home/dhaivat1729
+        networks:
+            evaluation:
+                aliases:
+                - evaluation
+networks:
+    evaluation: null
+volumes:
+    fifos: null

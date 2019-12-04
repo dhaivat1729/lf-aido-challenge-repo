@@ -1,0 +1,4 @@
+The environment variable VEHICLE_NAME is not set. Using 'dhaivat'.
+INFO:zuper_nodes_python2:zn-p2 5.0.8
+INFO:DuckiebotBridge:DuckiebotBridge starting communicating with the agent.
+INFO:DuckiebotBridge:DuckiebotBridge successfully sent to the agent the seed and episode name.

@@ -1,0 +1,8 @@
+#challenge: #defaults to all compatible challenges
+#  - aido-LF-sim-testing
+
+protocol: aido2_db18_agent-z2
+user-label: "whattheduck"
+user-payload: {}
+description: |
+    This is a simple baseline agent that operates through ROS using small portions of the Duckietown stack
